@@ -1,0 +1,79 @@
+# Boundary catalog for static-analysis overclaim prevention.
+#
+# Each top-level key is a boundary CATEGORY; values are regex patterns
+# that match call sites in source bodies. The catalog is intentionally
+# regex-based for v1 — when pyright LSP lands (D.9), replace with
+# import-resolved FQN matches against the actual AST.
+#
+# Adding a new pattern:
+#   1. Pick the category. If a new category is needed, add it with a
+#      one-line comment describing what kind of boundary it represents.
+#   2. Add the regex. Keep it tight — anchor with \b, avoid trailing
+#      .*, prefer the explicit function form (`jwt.encode\s*\(`).
+#   3. Run regression tests on the corpus (benchmarks/corpus/*) to
+#      ensure existing detections still pass.
+#
+# When a library has multiple aliases (e.g. orjson / ujson / json),
+# include each. The detector tries every pattern; first match wins.
+
+# ── type_erasing ──────────────────────────────────────────────────────
+# Value → primitive (string / bytes / dict). Downstream code rebuilds
+# from the primitive, so the original Python object is destroyed.
+type_erasing:
+  - '\bjwt\.encode\s*\('
+  - '\bjwt\.decode\s*\('
+  - '\bjson\.dumps\s*\('
+  - '\bjson\.loads\s*\('
+  - '\borjson\.dumps?\s*\('
+  - '\bujson\.dumps?\s*\('
+  - '\brapidjson\.dumps?\s*\('
+  - '\bsimplejson\.dumps?\s*\('
+  - '\bpickle\.dumps?\s*\('
+  - '\bpickle\.loads?\s*\('
+  - '\bmsgpack\.(?:pack|unpack)b?\s*\('
+  - '\.model_dump_json\s*\('     # Pydantic v2
+  - '\.model_dump\s*\('          # Pydantic v2
+  - '\.dict\s*\(\s*\)'            # Pydantic v1
+  - '\.json\s*\(\s*\)'
+
+# ── identity_boundary ────────────────────────────────────────────────
+# Object goes through persistence layer and a NEW instance comes out
+# the other side. Same type often, but identity differs and any
+# cached/runtime fields are gone.
+identity_boundary:
+  - '\bsession\.query\s*\('
+  - '\bsession\.execute\s*\('
+  - '\bsession\.scalar\s*\('
+  - '\bselect\s*\(.*\)\.where\s*\('
+  - '\.objects\.get\s*\('
+  - '\.objects\.filter\s*\('
+  - '\.objects\.create\s*\('
+  - '\.save\s*\(\s*\)'
+  - '\.first\s*\(\s*\)'
+  - '\.one\s*\(\s*\)'
+  - '\.one_or_none\s*\(\s*\)'
+  - '\.find_one\s*\('             # Mongo / Tortoise
+  - '\.find\s*\('
+  - '\.fetch_one\s*\('             # databases / asyncpg
+  - '\bModel\.query\.'
+  - '\bModel\.objects\.'
+
+# ── process_boundary ────────────────────────────────────────────────
+# Cross-process: network, subprocess, queue, IPC. By definition no
+# in-process flow possible.
+process_boundary:
+  - '\brequests\.(?:get|post|put|delete|patch|head)\s*\('
+  - '\bhttpx\.(?:get|post|put|delete|patch)\s*\('
+  - '\bhttpx\.AsyncClient'
+  - '\baiohttp\.ClientSession'
+  - '\bfetch\s*\('
+  - '\burllib\.request\.urlopen\s*\('
+  - '\bsubprocess\.(?:Popen|run|call|check_output)\s*\('
+  - '\bos\.(?:system|popen)\s*\('
+  - '\bredis\.(?:get|set|publish|hget|hset)\s*\('
+  - '\bcelery\.task\b'
+  - '\.apply_async\s*\('
+  - '\.delay\s*\('
+  - '\bawait\s+.*\.send\s*\('
+  - '\bsocket\.(?:send|recv)\s*\('
+  - '\bkafka\.(?:producer|consumer)\.'

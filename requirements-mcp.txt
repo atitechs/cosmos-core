@@ -1,0 +1,15 @@
+# ─────────────────────────────────────────────────────────
+# AI-Bran v5 — MCP Server (Optional, Python 3.10+ required)
+# ─────────────────────────────────────────────────────────
+# Run separately to expose Brain to Claude Desktop / Cursor.
+# Requires Python 3.10+ (the mcp package does not support 3.9).
+#
+# Install:
+#   python3.11 -m pip install -r requirements-mcp.txt
+#
+# Run:
+#   python3.11 -m core.api.mcp_server
+
+-r requirements-tier0.txt
+
+mcp>=1.0.0

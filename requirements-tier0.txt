@@ -1,0 +1,39 @@
+# ─────────────────────────────────────────────────────────
+# AI-Bran v5 — Tier 0: No-AI Foundation
+# ─────────────────────────────────────────────────────────
+# RAM: ~50-100 MB | Startup: <1s | Works on any machine
+#
+# This tier provides everything needed to run AI-Bran without
+# any AI dependencies. Search uses BM25 (SQLite FTS5),
+# summarization uses TextRank (algorithm), aggregations use SQL.
+
+# Web framework
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+
+# Data validation
+pydantic>=2.6.0
+
+# Configuration
+PyYAML>=6.0
+
+# Search & summarization (no AI, pure algorithms)
+summa>=1.2.0                # TextRank summarization
+
+# Thai language support (word segmentation for FTS5)
+pythainlp>=5.0.0
+
+# Universal Index file extractors — Phase 1 (pure-Python, cross-OS).
+# Together these let `scan_folder` index PDFs, Word/Excel/PowerPoint
+# documents, and EPUBs alongside the plain-text extensions. Bundle
+# impact: ~2 MB combined.
+pymupdf>=1.24.0             # .pdf primary — clean Thai/CJK text (fitz)
+pypdf>=4.0.0                # .pdf fallback (text-layer, no OCR)
+python-docx>=1.1.0          # .docx
+openpyxl>=3.1.0             # .xlsx
+python-pptx>=0.6.23         # .pptx
+ebooklib>=0.18              # .epub
+
+# NOTE: MCP server (for Claude Desktop / Cursor integration)
+# is in requirements-mcp.txt — requires Python 3.10+ separately.
