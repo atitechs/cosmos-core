@@ -1,0 +1,18 @@
+# ─────────────────────────────────────────────────────────
+# AI-Bran v5 — Phase 5: Code Indexer (Optional)
+# ─────────────────────────────────────────────────────────
+# AST-based code parsing for cross-language code understanding.
+# Fast, accurate, no AI required.
+
+-r requirements-tier0.txt
+
+tree-sitter>=0.22.0
+tree-sitter-python>=0.21.0
+tree-sitter-javascript>=0.21.0
+tree-sitter-typescript>=0.21.0
+tree-sitter-rust>=0.21.0
+tree-sitter-kotlin>=1.1.0          # Kotlin / KMP
+tree-sitter-language-pack>=1.8.1   # Dart / Flutter (no standalone wheel on PyPI)
+
+# File system watcher — Phase 7A: live re-index on file change
+watchdog>=4.0.0
