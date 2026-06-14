@@ -1,7 +1,7 @@
 # 🌌 Cosmos Core (Local-First AI Memory Substrate)
 
-[![Download Cosmos Desktop App](https://img.shields.io/badge/Download-Cosmos%20Desktop%20App-violet?style=for-the-badge&logo=apple)](https://atitechs.com)
-[![Join the Waitlist](https://img.shields.io/badge/Join-Waitlist%20%26%20Demo-cyan?style=for-the-badge)](https://atitechs.com#waitlist)
+[![Download Cosmos Desktop App](https://img.shields.io/badge/Download-Cosmos%20Desktop%20App-violet?style=for-the-badge&logo=apple)](https://cosmos.cosmos.atitechs.com)
+[![Join the Waitlist](https://img.shields.io/badge/Join-Waitlist%20%26%20Demo-cyan?style=for-the-badge)](https://cosmos.cosmos.atitechs.com/#register)
 
 Cosmos Core is the open-source engine of Cosmos. It runs a local Model Context Protocol (MCP) server that indexes your code structure (using tree-sitter AST parsing) and matches it against your SQLite database of bug-fix lessons to supply high-quality context to AI agents.
 
@@ -9,7 +9,7 @@ Cosmos Core is the open-source engine of Cosmos. It runs a local Model Context P
 > **🚀 Looking for the full Visual Experience?**
 > This repository contains the CLI-only core engine for advanced developers. If you want a **1-click automatic installer**, the gorgeous **2D/3D Neural Map (visual memory graph)**, the **Local Dev Server Controller**, and the **Interactive Timeline**, please download the Desktop App instead of manual CLI setup.
 >
-> 👉 **[Download Cosmos Desktop App Demo at atitechs.com](https://atitechs.com)**
+> 👉 **[Download Cosmos Desktop App Demo at cosmos.atitechs.com](https://cosmos.cosmos.atitechs.com)**
 
 ---
 
